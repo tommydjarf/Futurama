@@ -16,8 +16,19 @@ openRequest.onupgradeneeded = function (e) {
 	db.createObjectStore("episodes", { keyPath: "id" });
 };
 
-openRequest.onsuccess = function (e) {
+openRequest.onsuccess = async function (e) {
 	db = e.target.result;
+
+	const characters = await performDBOperation("characters", "readonly", "getAll");
+	const episodes = await performDBOperation("episodes", "readonly", "getAll");
+
+	if (characters.length === 0) {
+		await API.getCharacters();
+	}
+
+	if (episodes.length === 0) {
+		await API.getEpisodes();
+	}
 };
 
 // API Calls
