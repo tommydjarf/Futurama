@@ -4,7 +4,7 @@ function performDBOperation(storeName, mode, operation, value) {
 	return new Promise((resolve, reject) => {
 		const openRequest = indexedDB.open("futurama", 1);
 
-		openRequest.onerror = function (e) {
+		openRequest.onerror = function () {
 			reject("Error opening db");
 		};
 
@@ -35,11 +35,11 @@ function performDBOperation(storeName, mode, operation, value) {
 					return;
 			}
 
-			request.onerror = function (event) {
+			request.onerror = function () {
 				reject("Couldn't preform operation");
 			};
 
-			request.onsuccess = function (event) {
+			request.onsuccess = function () {
 				resolve(request.result);
 			};
 		};

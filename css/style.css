@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
 * {
 	padding: 0;
 	margin: 0;
@@ -5,11 +7,12 @@
 }
 
 body {
+	font-family: "Space Grotesk", "Courier New", Courier, monospace;
 	color: #fff;
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
-	overflow: hidden;
+	overflow: scroll;
 }
 
 .container {
@@ -55,9 +58,9 @@ button {
 
 .characters-button:hover,
 .episodes-button:hover {
-	transform: scale(1.1);
-	font-size: 1.1em;
-	letter-spacing: 0.1em;
+	transform: scale(1.03);
+	font-size: 1.03em;
+	letter-spacing: 0.05em;
 }
 
 main {
@@ -74,4 +77,75 @@ main {
 	width: 80%;
 	max-width: 720px;
 	box-shadow: 0 5px 25px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* modal testing */
+
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: hidden; /* Enable scroll if needed */
+
+	background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent black background */
+}
+
+.modal-content {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	background: linear-gradient(180deg, #8c1015, #e2161b);
+	color: black;
+	margin: 15% auto; /* 15% from the top and centered */
+	padding: 20px;
+	border: 5px solid #f1fe91;
+	border-radius: 5px;
+	width: 80%; /* Could be more or less, depending on screen size */
+	backdrop-filter: blur(5px); /* Increase the blur radius */
+}
+
+.modal-top-bar {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.edit-delete {
+	display: flex;
+	gap: 0.7em;
+}
+
+.character-card {
+	display: flex;
+	flex-direction: column;
+}
+
+.character-card > h3 {
+	font-size: 1.5em;
+	text-decoration: underline;
+}
+
+.character-card > img {
+	max-height: 300px;
+	max-width: auto;
+	width: auto;
+	padding: 2vw;
+}
+
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
 }
