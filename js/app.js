@@ -1,4 +1,7 @@
-// TODO: Add print function for characters
+// TODO: Add print function for characters/ edit function
+// TODO: Add print function for episodes
+// TODO: Add print punction for single character
+// TODO: Add print punction for single episode
 
 async function printCharacters() {
 	let characters = await performDBOperation("characters", "readonly", "getAll");

@@ -1,0 +1,69 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.container {
+	z-index: 1;
+}
+
+header {
+	display: flex;
+	height: auto;
+	justify-content: center;
+}
+
+nav {
+	display: flex;
+	justify-content: center;
+	padding: 1vw;
+}
+
+#futurama-logo {
+	height: auto;
+	width: 50%;
+	padding: 2vw;
+}
+
+button {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.characters-button,
+.episodes-button {
+	background: linear-gradient(0deg, #8c1015, #e2161b);
+	border-color: #f1fe91;
+	border-radius: 5px;
+	border-width: 3px;
+	padding: 1vw;
+	color: #fff;
+	text-shadow: 1px 1px 2px black;
+	margin: 0 2vw;
+	width: 20vw;
+}
+
+main {
+	display: flex;
+	justify-content: center;
+	padding-top: 5vw;
+}
+
+.main-container {
+	background: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(10px);
+	border-radius: 2vw;
+	padding: 3vw;
+	width: 80%;
+	max-width: 720px;
+	box-shadow: 0 5px 25px 0 rgba(31, 38, 135, 0.37);
+}
