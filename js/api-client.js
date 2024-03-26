@@ -1,5 +1,5 @@
 // API Urls
-const BASE_URL = "https://api.sampleapis.com/futurama/";
+const BASE_URL = "https://da-demo.github.io/api/futurama/";
 
 const API_URL = {
 	characters: `${BASE_URL}characters`,
@@ -16,8 +16,20 @@ openRequest.onupgradeneeded = function (e) {
 	db.createObjectStore("episodes", { keyPath: "id" });
 };
 
-openRequest.onsuccess = function (e) {
+// Checks if the IndexedDB is empty, if its empty it gets all the data from the API
+openRequest.onsuccess = async function (e) {
 	db = e.target.result;
+
+	const characters = await performDBOperation("characters", "readonly", "getAll");
+	const episodes = await performDBOperation("episodes", "readonly", "getAll");
+
+	if (characters.length === 0) {
+		await API.getCharacters();
+	}
+
+	if (episodes.length === 0) {
+		await API.getEpisodes();
+	}
 };
 
 // API Calls
