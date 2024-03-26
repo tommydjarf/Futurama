@@ -1,8 +1,3 @@
-// TODO: Add print function for characters/ edit function
-// TODO: Add print function for episodes
-// TODO: Add print punction for single character
-// TODO: Add print punction for single episode
-
 async function printCharacters() {
 	let characters = await performDBOperation("characters", "readonly", "getAll");
 
@@ -13,8 +8,7 @@ async function printCharacters() {
 
 	for (const character of characters) {
 		const characterElement = document.createElement("div");
-		const fullName = `${character.name.first} ${character.name.middle} ${character.name.last}`;
-		characterElement.textContent = `Name: ${fullName}, Occupation: ${character.occupation}, Homeplanet: ${character.homePlanet}`;
+		characterElement.textContent = `Name: ${character.fullName}, Occupation: ${character.occupation}, Homeplanet: ${character.homePlanet}`;
 		container.appendChild(characterElement);
 	}
 }
@@ -37,3 +31,8 @@ function remapCharacters(character) {
 window.onload = function () {
 	printCharacters();
 };
+
+// TODO: Add print function for characters/ edit function
+// TODO: Add print function for episodes
+// TODO: Add print punction for single character
+// TODO: Add print punction for single episode

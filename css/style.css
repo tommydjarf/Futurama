@@ -41,7 +41,7 @@ button {
 
 .characters-button,
 .episodes-button {
-	background: linear-gradient(0deg, #8c1015, #e2161b);
+	background: linear-gradient(180deg, #8c1015, #e2161b);
 	border-color: #f1fe91;
 	border-radius: 5px;
 	border-width: 3px;
@@ -50,6 +50,14 @@ button {
 	text-shadow: 1px 1px 2px black;
 	margin: 0 2vw;
 	width: 20vw;
+	transition: transform 0.3s ease, font-size 0.3s ease, letter-spacing 0.3s ease;
+}
+
+.characters-button:hover,
+.episodes-button:hover {
+	transform: scale(1.1);
+	font-size: 1.1em;
+	letter-spacing: 0.1em;
 }
 
 main {

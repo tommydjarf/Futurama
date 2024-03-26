@@ -46,8 +46,8 @@ function performDBOperation(storeName, mode, operation, value) {
 	});
 }
 
-// TODO: model for add and put
+// TODO: Function for add and put
 
-// Model for add
+// Function for add
 
-// Model for put
+// Function for put
