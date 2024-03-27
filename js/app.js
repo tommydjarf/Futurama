@@ -14,7 +14,6 @@ async function printCharacters() {
 		<h3>${character.fullName}</h3>
 		<p>Occupation: ${character.occupation}</p>
 		<p>Homeplanet: ${character.homePlanet}</p>
-		<p>ID: ${character.id}</p>
 		`;
         characterElement.addEventListener("click", () => printCharacter(character.id));
         container.appendChild(characterElement);
