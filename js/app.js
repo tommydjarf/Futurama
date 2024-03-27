@@ -1,3 +1,5 @@
+// ----------- CHARACTERS ----------- //
+
 async function printCharacters() {
 	let characters = await performDBOperation("characters", "readonly", "getAll");
 
@@ -77,11 +79,36 @@ function getRandomSayings(sayings) {
 	return randomSayings;
 }
 
+// ----------- EPISODES ----------- //
+
+async function printEpisodes() {
+	let characters = await performDBOperation("episodes", "readonly", "getAll");
+
+	const container = document.getElementsByClassName("episodes-container")[0];
+
+	for (const episode of episodes) {
+		const episodeElement = document.createElement("div");
+		characterElement.className = "episode-card";
+		characterElement.innerHTML = `
+		<h3>${episode.title}</h3>
+		<p>Season: ${episode.season}</p>
+		<p>Episode: ${episode.number}</p>
+		`;
+		container.appendChild(episodeElement);
+	}
+}
+
 window.onload = function () {
 	printCharacters();
 
 	let testButton = document.getElementById("testButton");
 	testButton.addEventListener("click", printCharacter);
+
+	let characterButton = document.getElementById("characters-button");
+	characterButton.addEventListener("click", printCharacters);
+
+	let episodeButton = document.getElementById("episode-button");
+	episodeButton.addEventListener("click", printEpisodes);
 };
 
 // TODO: Add print function for characters/ edit function

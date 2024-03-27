@@ -46,14 +46,23 @@ function performDBOperation(storeName, mode, operation, value) {
 	});
 }
 
+// Function to generate the next uniq ID
+async function getNextCharacterId() {
+	const characters = await performDBOperation("characters", "readonly", "getAll");
+
+	let nextId = characters.length + 1;
+
+	return nextId;
+}
+
 // Function for add
-function addCharacter(character) {
+async function addCharacter(character) {
 	// Set default values for the rest of the properties
 	const defaultCharacter = {
 		age: "",
 		gender: "",
 		homePlanet: "",
-		id: "",
+		id: await getNextCharacterId(),
 		images: { headShot: "", main: "" },
 		name: { first: "", middle: "", last: "" },
 		occupation: "",

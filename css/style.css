@@ -115,6 +115,7 @@ main {
 	border: 5px solid #f1fe91;
 	border-radius: 5px;
 	width: 80%; /* Could be more or less, depending on screen size */
+	max-width: 300px;
 	backdrop-filter: blur(5px); /* Increase the blur radius */
 }
 
