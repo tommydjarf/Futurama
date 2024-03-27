@@ -45,8 +45,8 @@ async function printCharacter(id) {
 	let randomSayings = getRandomSayings(character.sayings);
 	characterCard.innerHTML = `
 	<h3>${character.fullName}</h3>
-	<p>Occupation: ${character.occupation}</p>
-	<p>Homeplanet: ${character.homePlanet}</p>
+	<p><b>Occupation:</b> ${character.occupation}</p>
+	<p><b>Homeplanet:</b> ${character.homePlanet}</p>
 	<img src="${character.images.main}" alt="${character.fullName}">
 	<ul>
 		${randomSayings.map((saying) => `<li>${saying}</li>`).join("")}
@@ -89,7 +89,7 @@ function remapCharacters(character) {
 
 function getRandomSayings(sayings) {
 	let randomSayings = [];
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < 1; i++) {
 		let randomIndex = Math.floor(Math.random() * sayings.length);
 		randomSayings.push(sayings[randomIndex]);
 		sayings.splice(randomIndex, 1);
@@ -124,8 +124,7 @@ async function printEpisodes() {
 		episodeElement.className = "card";
 		episodeElement.innerHTML = `
 		<h3>${episode.title}</h3>
-		<p>Season: ${episode.season}</p>
-		<p>Episode: ${episodeNumber}</p>
+		<p>Season: ${episode.season} -- Episode: ${episodeNumber}</p>
 		`;
 		container.appendChild(episodeElement);
 	}
@@ -207,13 +206,21 @@ async function addCharacterForm() {
 	modalFormCard.appendChild(form);
 
 	form.innerHTML = `
-		<label for="firstName">First Name:</label>
-		<input type="text" id="firstName" name="firstName" required><br><br>
-		<label for="lastName">Last Name:</label>
-		<input type="text" id="lastName" name="lastName"><br><br>
-		<label for="homePlanet">Home Planet:</label>
-		<input type="text" id="homePlanet" name="homePlanet"><br><br>
+	<form class="add-character-form">
+		<div class="lable-input-form">
+			<label for="firstName">First Name:</label>
+			<input type="text" id="firstName" name="firstName" placeholder="First name" required>
+		</div>
+		<div class="lable-input-form">
+			<label for="lastName">Last Name:</label>
+			<input type="text" id="lastName" name="lastName" placeholder="Last name">
+		</div>
+		<div class="lable-input-form">
+			<label for="homePlanet">Home Planet:</label>
+			<input type="text" id="homePlanet" name="homePlanet" placeholder="Home planet">
+		</div>
 		<input class="submitAddCharacter" type="submit" value="Submit">
+	</form>
     `;
 
 	// Display the form modal when a button is clicked
@@ -227,6 +234,3 @@ async function addCharacterForm() {
 }
 
 async function editCharacterform() {}
-// TODO: Add print function for episodes
-// TODO: Add print punction for single character
-// TODO: Add print punction for single episode

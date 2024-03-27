@@ -99,3 +99,5 @@ async function deleteCharacter(id) {
 		printCharacters();
 	}
 }
+
+// TODO : Fix delete bug ( delete gets stuck some times)

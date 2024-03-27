@@ -87,3 +87,5 @@ function addSeasonToEpisodes(episodes) {
 	}
 	return episodes;
 }
+
+// TODO: Fix bug when page loads so that database is downloaded first

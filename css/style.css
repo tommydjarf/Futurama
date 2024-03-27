@@ -30,22 +30,33 @@ body {
 	z-index: 2;
 }
 
+header,
+main,
+nav {
+	width: 80%;
+	max-width: 720px;
+	margin: 0 auto;
+}
+
 header {
 	display: flex;
 	height: auto;
 	justify-content: center;
 }
 
+#futurama-logo {
+	height: auto;
+	width: 40%;
+	padding: 2vw;
+}
+
 nav {
 	display: flex;
 	justify-content: center;
-	padding: 1vw;
-}
-
-#futurama-logo {
-	height: auto;
-	width: 30%;
-	padding: 2vw;
+	align-items: center;
+	padding: 1em;
+	flex-wrap: wrap;
+	gap: 1.5em;
 }
 
 button {
@@ -54,7 +65,9 @@ button {
 }
 
 .characters-button,
-.episodes-button {
+.episodes-button,
+.add-character-button,
+.add-episode-button {
 	background: linear-gradient(180deg, #8c1015, #e2161b);
 	border-color: #f1fe91;
 	border-radius: 5px;
@@ -62,32 +75,63 @@ button {
 	padding: 1vw;
 	color: #fff;
 	text-shadow: 1px 1px 2px black;
-	margin: 0 2em;
+	margin: 0 1em;
 	width: 15em;
+}
+
+.characters-button:hover,
+.characters-button:focus,
+.episodes-button:hover,
+.episodes-button:focus,
+.add-character-button:hover,
+.add-character-button:focus,
+.add-episode-button:hover,
+.add-episode-button:focus {
+	transform: scale(1.05);
+	cursor: pointer;
+	transition: transform 0.3s ease-in-out;
 }
 
 main {
 	display: flex;
 	justify-content: center;
-	padding-top: 5vw;
+	padding: 5em 0;
 }
 
 .main-container {
 	position: relative;
 	background: rgba(255, 255, 255, 0.1);
-
-	border-radius: 2vw;
-	padding: 3vw;
+	border-radius: 2em;
+	padding: 3em;
 	width: 80%;
 	max-width: 720px;
 	box-shadow: 0 5px 25px 0 rgba(31, 38, 135, 0.37);
 	overflow: auto;
 }
 
+.characters-container > h2 {
+	font-size: 3em;
+	text-align: center;
+	text-decoration: underline;
+	text-decoration-color: #f1fe91;
+}
+
 .card {
+	background: rgba(0, 0, 0, 0.3);
 	padding: 1em;
 	margin: 1em;
 	border: 1px solid #f1fe91;
+}
+
+.card > h3 {
+	font-size: 1.6em;
+	text-decoration: underline;
+	text-decoration-color: #f1fe91;
+	margin-bottom: 0.5em;
+}
+
+.card > p {
+	font-size: 1.4em;
 }
 
 .characters-container {
@@ -97,15 +141,15 @@ main {
 /* modal testing */
 
 .modal {
-	display: none; /* Hidden by default */
+	display: none;
 	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
+	z-index: 2;
 	left: 0;
 	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: hidden; /* Enable scroll if needed */
-	background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent black background */
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
@@ -114,13 +158,13 @@ main {
 	align-items: start;
 	background: linear-gradient(180deg, #8c1015, #e2161b);
 	color: black;
-	margin: 15% auto; /* 15% from the top and centered */
+	margin: 25% auto;
 	padding: 20px;
 	border: 5px solid #f1fe91;
 	border-radius: 5px;
-	width: 80%; /* Could be more or less, depending on screen size */
+	width: 80%;
 	max-width: 300px;
-	backdrop-filter: blur(5px); /* Increase the blur radius */
+	backdrop-filter: blur(5px);
 }
 
 .modal-top-bar {
@@ -130,8 +174,12 @@ main {
 }
 
 .edit-delete {
+	cursor: pointer;
 	display: flex;
-	gap: 0.7em;
+}
+
+.edit-delete > span {
+	margin-right: 1.5em;
 }
 
 .modal-content-card {
@@ -140,27 +188,75 @@ main {
 }
 
 .modal-content-card > h3 {
-	font-size: 1.5em;
+	margin: 0.6em 0;
+	font-size: 1.6em;
+	font-weight: bold;
 	text-decoration: underline;
+	text-decoration-color: #f1fe91;
+}
+
+.modal-content-card > p {
+	font-size: 1.3em;
 }
 
 .modal-content-card > img {
-	max-height: 300px;
+	max-height: 30em;
 	max-width: auto;
 	width: auto;
-	padding: 2vw;
+	padding: 2em;
 }
 
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
+.close > img,
+.edit-delete > span > img {
+	opacity: 0.5;
 }
 
-.close:hover,
-.close:focus {
-	color: black;
-	text-decoration: none;
+.close > img:hover,
+.close > img:focus,
+.edit-delete > span > img:hover,
+.edit-delete > span > img:focus {
+	opacity: 1;
+	transform: scale(1.2);
 	cursor: pointer;
+	transition: transform 0.3s ease-in-out;
+}
+
+.modal-content-card > ul {
+	font-size: 1.3em;
+}
+
+.lable-input-form {
+	display: flex;
+	justify-content: space-between;
+}
+
+.lable-input-form label {
+	font-size: 1.3em;
+	margin-right: 1em;
+	margin-bottom: 1em;
+}
+
+.lable-input-form input {
+	margin-left: auto;
+	margin-bottom: 1em;
+}
+
+.submitAddCharacter {
+	background: linear-gradient(180deg, #8c1015, #e2161b);
+	border-color: #f1fe91;
+	border-radius: 5px;
+	border-width: 3px;
+	padding: 0.5em;
+	color: #fff;
+	text-shadow: 1px 1px 2px black;
+	margin: 0 auto;
+	width: 15em;
+	display: block;
+}
+
+.submitAddCharacter:hover,
+.submitAddCharacter:focus {
+	transform: scale(1.05);
+	cursor: pointer;
+	transition: transform 0.3s ease-in-out;
 }
