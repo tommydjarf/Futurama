@@ -8,12 +8,15 @@ async function printCharacters() {
 
 	for (const character of characters) {
 		const characterElement = document.createElement("div");
-		characterElement.textContent = `Name: ${character.fullName}, Occupation: ${character.occupation}, Homeplanet: ${character.homePlanet}`;
+		characterElement.className = "character-card";
+		characterElement.innerHTML = `
+		<h3>${character.fullName}</h3>
+		<p>Occupation: ${character.occupation}</p>
+		<p>Homeplanet: ${character.homePlanet}</p>
+		`;
 		container.appendChild(characterElement);
 	}
 }
-
-// classname "character-card"
 
 async function printCharacter() {
 	let test = document.getElementById("testButton");
@@ -24,7 +27,9 @@ async function printCharacter() {
 	// Remap the character
 	character = remapCharacters(character);
 
-	let characterCard = document.querySelector("#characterModal .character-card");
+	console.log(character);
+
+	let characterCard = document.querySelector("#characterModal .modal-character-card");
 	let randomSayings = getRandomSayings(character.sayings);
 	characterCard.innerHTML = `
 	<h3>${character.fullName}</h3>
@@ -64,7 +69,7 @@ function remapCharacters(character) {
 
 function getRandomSayings(sayings) {
 	let randomSayings = [];
-	for (let i = 0; i < 1; i++) {
+	for (let i = 0; i < 5; i++) {
 		let randomIndex = Math.floor(Math.random() * sayings.length);
 		randomSayings.push(sayings[randomIndex]);
 		sayings.splice(randomIndex, 1);

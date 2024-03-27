@@ -46,8 +46,41 @@ function performDBOperation(storeName, mode, operation, value) {
 	});
 }
 
-// TODO: Function for add and put
-
 // Function for add
+function addCharacter(character) {
+	// Set default values for the rest of the properties
+	const defaultCharacter = {
+		age: "",
+		gender: "",
+		homePlanet: "",
+		id: "",
+		images: { headShot: "", main: "" },
+		name: { first: "", middle: "", last: "" },
+		occupation: "",
+		sayings: [],
+		species: "",
+	};
+
+	const fullCharacter = { ...defaultCharacter, ...character };
+
+	return performDBOperation("characters", "readwrite", "post", fullCharacter);
+}
 
 // Function for put
+async function updateCharacter(id, character) {
+	// Get existing character data from IndexedDB
+	const existingCharacter = await performDBOperation("characters", "readonly", "get", id);
+
+	if (!existingCharacter) {
+		throw new Error(`Character with id ${id} is not found`);
+	}
+
+	const fullCharacter = { ...existingCharacter, ...character };
+
+	return performDBOperation("characters", "readwrite", "put", fullCharacter);
+}
+
+// Function for delete
+function deleteCharacter(id) {
+	return performDBOperation("characters", "readwrite", "delete", id);
+}
