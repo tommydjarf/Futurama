@@ -90,6 +90,12 @@ async function updateCharacter(id, character) {
 }
 
 // Function for delete
-function deleteCharacter(id) {
-	return performDBOperation("characters", "readwrite", "delete", id);
+async function deleteCharacter(id) {
+	let confirmation = confirm("Are you sure you want to delete this caracter?");
+	if (confirmation) {
+		alert("Character deleted");
+		await performDBOperation("characters", "readwrite", "delete", id);
+		closeTheModal();
+		printCharacters();
+	}
 }

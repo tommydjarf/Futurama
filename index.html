@@ -22,32 +22,26 @@
 			<nav id="nav-bar">
 				<button class="characters-button" type="button">Characters</button>
 				<button class="episodes-button" type="button">Episodes</button>
+				<button id="openFormButton" class="add-character-button" type="button" onclick="addCharacterForm()">Add Character</button>
+				<button class="add-episode-button" type="button">Add Episode</button>
 			</nav>
-
+			<!-- <button id="testButton" data-id="1">Test Character</button>
+			<button id="testButton2" data-id="5">Test Episode</button> -->
 			<main>
-				<div class="main-container">
-					<div class="characters-container">
-						<h2>Characters</h2>
-					</div>
-					<div class="episodes-container">
-						<h2>Episodes</h2>
-					</div>
-					<!-- temp div for test -->
-					<button id="testButton" data-id="1">Test Character</button>
-					<div id="characterModal" class="modal">
-						<div class="modal-content">
-							<div class="modal-top-bar">
-								<div class="edit-delete">
-									<span class="edit"><img src="./images/edit-pencil.svg" alt="edit pencil" /></span>
-									<span class="delete"><img src="./images/trash.svg" alt="delete" /></span>
-								</div>
-								<span class="close"><img src="./images/xmark.svg" alt="close" /></span>
-							</div>
-							<div class="modal-character-card"></div>
-						</div>
-					</div>
-				</div>
+				<div class="main-container"></div>
 			</main>
+			<div id="modal" class="modal">
+				<div class="modal-content">
+					<div class="modal-top-bar">
+						<div class="edit-delete">
+							<span class="edit"><img src="./images/edit-pencil.svg" alt="edit pencil" /></span>
+							<span class="delete"><img src="./images/trash.svg" alt="delete" /></span>
+						</div>
+						<span class="close"><img src="./images/xmark.svg" alt="close" /></span>
+					</div>
+					<div class="modal-content-card"></div>
+				</div>
+			</div>
 		</div>
 
 		<script src="./js/api-client.js"></script>

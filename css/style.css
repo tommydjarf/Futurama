@@ -84,10 +84,14 @@ main {
 	overflow: auto;
 }
 
-.character-card {
+.card {
 	padding: 1em;
 	margin: 1em;
 	border: 1px solid #f1fe91;
+}
+
+.characters-container {
+	cursor: pointer;
 }
 
 /* modal testing */
@@ -130,17 +134,17 @@ main {
 	gap: 0.7em;
 }
 
-.modal-character-card {
+.modal-content-card {
 	display: flex;
 	flex-direction: column;
 }
 
-.modal-character-card > h3 {
+.modal-content-card > h3 {
 	font-size: 1.5em;
 	text-decoration: underline;
 }
 
-.modal-character-card > img {
+.modal-content-card > img {
 	max-height: 300px;
 	max-width: auto;
 	width: auto;
