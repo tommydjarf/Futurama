@@ -93,11 +93,9 @@ async function updateCharacter(id, character) {
 async function deleteCharacter(id) {
 	let confirmation = confirm("Are you sure you want to delete this caracter?");
 	if (confirmation) {
-		alert("Character deleted");
 		await performDBOperation("characters", "readwrite", "delete", id);
-		closeTheModal();
-		printCharacters();
+		alert("Character deleted");	
 	}
+	await closeTheModal();
+	await printCharacters();
 }
-
-// TODO : Fix delete bug ( delete gets stuck some times)

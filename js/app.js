@@ -33,6 +33,9 @@ async function printCharacters() {
 	}
 }
 
+let deleteButton = document.querySelector(".delete");
+let deleteFunction = null;
+
 async function printCharacter(id) {
 	let character = await performDBOperation("characters", "readonly", "get", id);
 
@@ -59,8 +62,12 @@ async function printCharacter(id) {
 	let characterModal = document.getElementById("modal");
 	characterModal.style.display = "block";
 
-	let deleteButton = document.querySelector(".delete");
-	deleteButton.addEventListener("click", () => deleteCharacter(id));
+	if (deleteFunction) {
+        deleteButton.removeEventListener("click", deleteFunction);
+    }
+
+    deleteFunction = () => deleteCharacter(id);
+    deleteButton.addEventListener("click", deleteFunction);
 }
 
 let closeButtonElement = document.querySelector("#modal .close");
