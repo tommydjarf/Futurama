@@ -1,4 +1,4 @@
-// Gettino main container
+// Getting main container
 const mainContainer = document.querySelector(".main-container");
 
 // ----------- CHARACTERS ----------- //
@@ -90,6 +90,7 @@ function closeTheModal() {
 // Remap for characters
 function remapCharacters(character) {
 	const fullName = `${character.name.first || " "} ${character.name.middle || " "} ${character.name.last || " "}`;
+
 	return {
 		...character,
 		name: {
@@ -142,7 +143,6 @@ async function printEpisodes() {
 		<h3>${episode.title}</h3>
 		<p>Season: ${episode.season} -- Episode: ${episodeNumber}</p>
 		`;
-
 
 		episodeElement.addEventListener("click", () => printEpisode(episode.id));
 		container.appendChild(episodeElement);
@@ -207,12 +207,12 @@ async function addCharacterForm() {
 			},
 			images: {
 				"head-shot": "",
-				main: "",
+				main: "./images/default.webp",
 			},
 			gender: "",
 			species: "",
 			occupation: "",
-			sayings: ["", ""],
+			sayings: ["Monkey say, monkey do!"],
 			id: await getNextCharacterId(),
 			age: "",
 			homePlanet: homePlanet,
@@ -307,7 +307,6 @@ async function editCharacterForm(id) {
     `;
 }
 
-
 //----------------EPISODES----------------//
 //
 
@@ -372,6 +371,3 @@ async function addEpisodeForm() {
 	</form>
     `;
 }
-
-
-

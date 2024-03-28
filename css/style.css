@@ -203,7 +203,8 @@ main {
 	max-height: 30em;
 	max-width: auto;
 	width: auto;
-	padding: 2em;
+	padding: 2em 0;
+	margin: auto;
 }
 
 .close > img,
