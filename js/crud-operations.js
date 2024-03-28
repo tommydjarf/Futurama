@@ -97,6 +97,10 @@ async function deleteCharacter(id) {
 		await performDBOperation("characters", "readwrite", "delete", id);
 		alert("Character deleted");	
 	}
-	await closeTheModal();
+	closeTheModal();
 	await printCharacters();
 }
+
+
+
+

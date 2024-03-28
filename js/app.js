@@ -1,4 +1,4 @@
-// Getting main container
+// Gettino main container
 const mainContainer = document.querySelector(".main-container");
 
 // ----------- CHARACTERS ----------- //
@@ -142,15 +142,15 @@ async function printEpisodes() {
 		<h3>${episode.title}</h3>
 		<p>Season: ${episode.season} -- Episode: ${episodeNumber}</p>
 		`;
+
+
+		episodeElement.addEventListener("click", () => printEpisode(episode.id));
 		container.appendChild(episodeElement);
 	}
 }
 
-async function printEpisode() {
-	let test = document.getElementById("testButton2");
-	let value = Number(test.dataset.id);
-
-	let episode = await performDBOperation("episodes", "readonly", "get", value);
+async function printEpisode(id) {
+	let episode = await performDBOperation("episodes", "readonly", "get", id);
 	let episodeNumber = episode.number.split(" - ")[0];
 	console.log(episode);
 
@@ -306,3 +306,72 @@ async function editCharacterForm(id) {
 	</form>
     `;
 }
+
+
+//----------------EPISODES----------------//
+//
+
+async function addEpisodeForm() {
+	const form = document.createElement("form");
+	form.id = "addEpisodeForm";
+
+	form.addEventListener("submit", async function (event) {
+		event.preventDefault();
+
+		const firstName = document.getElementById("title").value;
+		const lastName = document.getElementById("season").value;
+		const homePlanet = document.getElementById("episode").value;
+
+		const newEpisode = {
+			name: {
+				first: firstName,
+				middle: "",
+				last: lastName,
+			},
+			images: {
+				"head-shot": "",
+				main: "",
+			},
+			gender: "",
+			species: "",
+			occupation: "",
+			sayings: ["", ""],
+			id: await getNextCharacterId(),
+			age: "",
+			homePlanet: homePlanet,
+		};
+		try {
+			await addCharacter(newCharacter);
+			console.log("Character added successfully IN ADDCHARFORM!");
+			form.reset();
+			await printCharacters(); // Update the character list after adding
+		} catch (error) {
+			console.error("Error adding character:", error);
+		}
+	});
+
+	let modalFormCard = document.querySelector("#modal .modal-content-card");
+	modalFormCard.innerHTML = "";
+	modalFormCard.appendChild(form);
+
+	form.innerHTML = `
+	<form class="add-character-form">
+		<div class="lable-input-form">
+			<label for="firstName">First Name:</label>
+			<input type="text" id="firstName" name="firstName" placeholder="First name" required>
+		</div>
+		<div class="lable-input-form">
+			<label for="lastName">Last Name:</label>
+			<input type="text" id="lastName" name="lastName" placeholder="Last name">
+		</div>
+		<div class="lable-input-form">
+			<label for="homePlanet">Home Planet:</label>
+			<input type="text" id="homePlanet" name="homePlanet" placeholder="Home planet">
+		</div>
+		<input class="submitAddCharacter" type="submit" value="Submit">
+	</form>
+    `;
+}
+
+
+
