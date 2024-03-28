@@ -72,6 +72,7 @@ async function addCharacter(character) {
 
 	const fullCharacter = { ...defaultCharacter, ...character };
 
+  closeTheModal();
 	return performDBOperation("characters", "readwrite", "post", fullCharacter);
 }
 
