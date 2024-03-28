@@ -35,6 +35,8 @@ async function printCharacters() {
 
 let deleteButton = document.querySelector(".delete");
 let deleteFunction = null;
+let editButton = document.querySelector(".edit");
+let editFunction = null;
 
 async function printCharacter(id) {
 	let character = await performDBOperation("characters", "readonly", "get", id);
@@ -63,11 +65,18 @@ async function printCharacter(id) {
 	characterModal.style.display = "block";
 
 	if (deleteFunction) {
-        deleteButton.removeEventListener("click", deleteFunction);
-    }
+		deleteButton.removeEventListener("click", deleteFunction);
+	}
 
-    deleteFunction = () => deleteCharacter(id);
-    deleteButton.addEventListener("click", deleteFunction);
+	deleteFunction = () => deleteCharacter(id);
+	deleteButton.addEventListener("click", deleteFunction);
+
+	if (editFunction) {
+		editButton.removeEventListener("click", editFunction);
+	}
+
+	editFunction = () => editCharacterForm(id);
+	editButton.addEventListener("click", editFunction);
 }
 
 let closeButtonElement = document.querySelector("#modal .close");
@@ -161,13 +170,23 @@ async function printEpisode() {
 document.addEventListener("DOMContentLoaded", function () {
 	document.querySelector(".characters-button").addEventListener("click", printCharacters);
 	document.querySelector(".episodes-button").addEventListener("click", printEpisodes);
+	document.querySelector(".add-character-button").addEventListener("click", function () {
+		document.getElementById("modal").style.display = "block";
+
+		let = editDeleteButtons = document.querySelectorAll(".edit-delete");
+		editDeleteButtons.forEach((button) => (button.style.display = "none"));
+
+		addCharacterForm();
+	});
+	document.querySelector(".ed");
 });
 
-window.onload = function () {
-	printCharacters();
+window.onload = async function () {
+	await loadDatabase();
+	await printCharacters();
 };
 
-// TODO: Add print function for characters/ edit function
+// TODO: Close form for addCharacterForm
 
 async function addCharacterForm() {
 	const form = document.createElement("form");
@@ -229,15 +248,61 @@ async function addCharacterForm() {
 		<input class="submitAddCharacter" type="submit" value="Submit">
 	</form>
     `;
-
-	// Display the form modal when a button is clicked
-	let openFormButton = document.getElementById("openFormButton");
-	openFormButton.addEventListener("click", function () {
-		document.getElementById("modal").style.display = "block";
-
-		let editDeleteButtons = document.querySelectorAll(".edit-delete");
-		editDeleteButtons.forEach((button) => (button.style.display = "none"));
-	});
 }
 
-async function editCharacterform() {}
+async function editCharacterForm(id) {
+	let character = await performDBOperation("characters", "readonly", "get", id);
+
+	let firstName = character.name.first;
+	let lastName = character.name.last;
+	let homePlanet = character.homePlanet;
+
+	const form = document.createElement("form");
+	form.id = "editCharacterForm";
+
+	form.addEventListener("submit", async function (event) {
+		event.preventDefault();
+
+		firstName = document.getElementById("firstName").value;
+		lastName = document.getElementById("lastName").value;
+		homePlanet = document.getElementById("homePlanet").value;
+
+		const newCharacter = {
+			name: {
+				first: firstName,
+				last: lastName,
+			},
+			homePlanet: homePlanet,
+		};
+		try {
+			await updateCharacter(id, newCharacter);
+			console.log("Character added successfully IN ADDCHARFORM!");
+			//form.reset();
+			await printCharacter(id);
+		} catch (error) {
+			console.error("Error adding character:", error);
+		}
+	});
+
+	let modalFormCard = document.querySelector("#modal .modal-content-card");
+	modalFormCard.innerHTML = "";
+	modalFormCard.appendChild(form);
+
+	form.innerHTML = `
+	<form class="add-character-form">
+		<div class="lable-input-form">
+			<label for="firstName">First Name:</label>
+			<input type="text" id="firstName" name="firstName" value="${firstName}" required>
+		</div>
+		<div class="lable-input-form">
+			<label for="lastName">Last Name:</label>
+			<input type="text" id="lastName" name="lastName" value="${lastName}">
+		</div>
+		<div class="lable-input-form">
+			<label for="homePlanet">Home Planet:</label>
+			<input type="text" id="homePlanet" name="homePlanet" value="${homePlanet}">
+		</div>
+		<input class="submitAddCharacter" type="submit" value="Submit">
+	</form>
+    `;
+}
