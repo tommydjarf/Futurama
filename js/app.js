@@ -147,6 +147,8 @@ async function printEpisodes() {
 		episodeElement.addEventListener("click", () => printEpisode(episode.id));
 		container.appendChild(episodeElement);
 	}
+	// let deleteButton = document.querySelector(".delete");
+	// deleteButton.addEventListener("click", () => deleteEpisode(id));
 }
 
 async function printEpisode(id) {
@@ -163,8 +165,25 @@ async function printEpisode(id) {
 	<p>Writers: ${episode.writers}</p>
 	`;
 
-	let modal = document.getElementById("modal");
-	modal.style.display = "block";
+	let editDeleteButtons = document.querySelectorAll(".edit-delete");
+	editDeleteButtons.forEach((button) => (button.style.display = "inline"));
+
+	let episodeModal = document.getElementById("modal");
+	episodeModal.style.display = "block";
+
+	if (deleteFunction) {
+		deleteButton.removeEventListener("click", deleteFunction);
+	}
+
+	deleteFunction = () => deleteEpisode(id);
+	deleteButton.addEventListener("click", deleteFunction);
+
+	if (editFunction) {
+		editButton.removeEventListener("click", editFunction);
+	}
+
+	editFunction = () => editEpisodeForm(id);
+	editButton.addEventListener("click", editFunction);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -239,22 +258,22 @@ async function addCharacterForm() {
 	modalFormCard.appendChild(form);
 
 	form.innerHTML = `
-	<form class="add-character-form">
-		<div class="lable-input-form">
-			<label for="firstName">First Name:</label>
-			<input type="text" id="firstName" name="firstName" placeholder="First name" required>
-		</div>
-		<div class="lable-input-form">
-			<label for="lastName">Last Name:</label>
-			<input type="text" id="lastName" name="lastName" placeholder="Last name">
-		</div>
-		<div class="lable-input-form">
-			<label for="homePlanet">Home Planet:</label>
-			<input type="text" id="homePlanet" name="homePlanet" placeholder="Home planet">
-		</div>
-		<input class="submitAddCharacter" type="submit" value="Submit">
-	</form>
-    `;
+		<form class="add-character-form">
+			<div class="label-input-form">
+				<label for="firstName">First Name:</label>
+				<input type="text" id="firstName" name="firstName" placeholder="First name" required>
+			</div>
+			<div class="label-input-form">
+				<label for="lastName">Last Name:</label>
+				<input type="text" id="lastName" name="lastName" placeholder="Last name">
+			</div>
+			<div class="label-input-form">
+				<label for="homePlanet">Home Planet:</label>
+				<input type="text" id="homePlanet" name="homePlanet" placeholder="Home planet">
+			</div>
+			<input class="submitButton" type="submit" value="Submit">
+		</form>
+	`;
 }
 
 async function editCharacterForm(id) {
@@ -283,11 +302,11 @@ async function editCharacterForm(id) {
 		};
 		try {
 			await updateCharacter(id, newCharacter);
-			console.log("Character added successfully IN ADDCHARFORM!");
-			//form.reset();
+			console.log("Character edited successfully IN ADDCHARFORM!");
 			await printCharacter(id);
+			await printCharacters();
 		} catch (error) {
-			console.error("Error adding character:", error);
+			console.error("Error editing character:", error);
 		}
 	});
 
@@ -296,22 +315,22 @@ async function editCharacterForm(id) {
 	modalFormCard.appendChild(form);
 
 	form.innerHTML = `
-	<form class="add-character-form">
-		<div class="lable-input-form">
-			<label for="firstName">First Name:</label>
-			<input type="text" id="firstName" name="firstName" value="${firstName}" required>
-		</div>
-		<div class="lable-input-form">
-			<label for="lastName">Last Name:</label>
-			<input type="text" id="lastName" name="lastName" value="${lastName}">
-		</div>
-		<div class="lable-input-form">
-			<label for="homePlanet">Home Planet:</label>
-			<input type="text" id="homePlanet" name="homePlanet" value="${homePlanet}">
-		</div>
-		<input class="submitAddCharacter" type="submit" value="Submit">
-	</form>
-    `;
+		<form class="edit-character-form">
+			<div class="label-input-form">
+				<label for="firstName">First Name:</label>
+				<input type="text" id="firstName" name="firstName" value="${firstName}" required>
+			</div>
+			<div class="label-input-form">
+				<label for="lastName">Last Name:</label>
+				<input type="text" id="lastName" name="lastName" value="${lastName}">
+			</div>
+			<div class="label-input-form">
+				<label for="homePlanet">Home Planet:</label>
+				<input type="text" id="homePlanet" name="homePlanet" value="${homePlanet}">
+			</div>
+			<input class="submitButton" type="submit" value="Submit">
+		</form>
+	`;
 }
 
 //----------------EPISODES----------------//
@@ -325,7 +344,6 @@ async function addEpisodeForm() {
 		const title = document.getElementById("titleEpisode").value;
 		const season = document.getElementById("season").value;
 		const episode = document.getElementById("episode").value;
-		//let episodeNumber = episode.number.split(" - ")[0];
 
 		const newEpisode = {
 			number: episode,
@@ -352,21 +370,80 @@ async function addEpisodeForm() {
 	modalFormCard.appendChild(form);
 
 	form.innerHTML = `
-  <form class="add-episode-form">
-	<div class="lable-input-form">
-	  <label for="titleEpisode">Title:</label>
-	  <input type="text" id="titleEpisode" name="title" placeholder="Title" required>
-	</div>
-	<div class="lable-input-form">
-	  <label for="season">Season:</label>
-	  <input type="text" id="season" name="season" placeholder="Season">
-	</div>
-	<div class="lable-input-form">
-	  <label for="episode">Episode:</label>
-	  <input type="text" id="episode" name="episode" placeholder="Episode">
-	</div>
-  
-	<input class="submitAddCharacter" type="submit" value="Submit">
-  </form>
-  `;
+	<form class="add-episode-form">
+		<div class="label-input-form">
+		<label for="titleEpisode">Title:</label>
+		<input type="text" id="titleEpisode" name="title" placeholder="Title" required>
+		</div>
+		<div class="label-input-form">
+		<label for="season">Season:</label>
+		<input type="text" id="season" name="season" placeholder="Season">
+		</div>
+		<div class="label-input-form">
+		<label for="episode">Episode:</label>
+		<input type="text" id="episode" name="episode" placeholder="Episode">
+		</div>
+		<input class="submitButton" type="submit" value="Submit">
+	</form>
+	`;
+}
+
+//EDIT EPISODE FORM
+
+async function editEpisodeForm(id) {
+	let episode = await performDBOperation("episodes", "readonly", "get", id);
+	let title = episode.title;
+	let season = episode.season;
+	let episodeNumber = episode.number;
+
+	const form = document.createElement("form");
+	form.id = "editEpisodeForm";
+
+	form.addEventListener("submit", async function (event) {
+		event.preventDefault();
+
+		title = document.getElementById("titleEpisode").value;
+		season = document.getElementById("season").value;
+		episodeNumber = document.getElementById("episode").value;
+		submitEditEpisode;
+
+		const newEpisode = {
+			number: episodeNumber,
+			title: title,
+			season: season,
+			// Include other fields you want to update
+		};
+
+		try {
+			await editEpisode(id, newEpisode);
+			console.log("Episode updated successfully!");
+			await printEpisode(id);
+			await printEpisodes();
+		} catch (error) {
+			console.error("Error updating episode:", error);
+		}
+	});
+
+	let modalFormCard = document.querySelector("#modal .modal-content-card");
+	modalFormCard.innerHTML = "";
+	modalFormCard.appendChild(form);
+
+	form.innerHTML = `
+	<form class="edit-episode-form">
+		<div class="label-input-form">
+			<label for="titleEpisode">Title:</label>
+			<input type="text" id="titleEpisode" name="title" value="${title}" required>
+		</div>
+		<div class="label-input-form">
+			<label for="season">Season:</label>
+			<input type="text" id="season" name="season" value="${season}" required>
+		</div>
+		<div class="label-input-form">
+			<label for="episode">Episode:</label>
+			<input type="text" id="episode" name="episode" value="${episodeNumber}" required>
+		</div>
+		<!-- Include other input fields you want to edit -->
+		<input class="submitButton" type="submit" value="Submit">
+	</form>
+	`;
 }

@@ -50,7 +50,9 @@ function performDBOperation(storeName, mode, operation, value) {
 async function getNextCharacterId() {
 	const characters = await performDBOperation("characters", "readonly", "getAll");
 
-	let nextId = characters.length + 1;
+	let maxId = Math.max(...characters.map((character) => character.id));
+
+	let nextId = maxId + 1;
 
 	return nextId;
 }
@@ -73,6 +75,7 @@ async function addCharacter(character) {
 	const fullCharacter = { ...defaultCharacter, ...character };
 
 	closeTheModal();
+
 	return performDBOperation("characters", "readwrite", "post", fullCharacter);
 }
 
@@ -86,7 +89,6 @@ async function updateCharacter(id, character) {
 	}
 
 	const fullCharacter = { ...existingCharacter, ...character };
-
 	return performDBOperation("characters", "readwrite", "put", fullCharacter);
 }
 
@@ -104,7 +106,9 @@ async function deleteCharacter(id) {
 async function getNextEpisodeId() {
 	const episodes = await performDBOperation("episodes", "readonly", "getAll");
 
-	let nextId = episodes.length + 1;
+	let maxId = Math.max(...episodes.map((episode) => episode.id));
+
+	let nextId = maxId + 1;
 
 	return nextId;
 }
@@ -124,4 +128,28 @@ async function addEpisode(episode) {
 
 	closeTheModal();
 	return performDBOperation("episodes", "readwrite", "post", fullEpisode);
+}
+
+// Delete episode
+async function deleteEpisode(id) {
+	let confirmation = confirm("Are you sure you want to delete this episode?");
+	if (confirmation) {
+		await performDBOperation("episodes", "readwrite", "delete", id);
+		alert("Episode deleted");
+	}
+	closeTheModal();
+	await printEpisodes();
+}
+
+// Edit episode
+async function editEpisode(id, episode) {
+	// Get existing episode data from IndexedDB
+	const existingEpisode = await performDBOperation("episodes", "readonly", "get", id);
+
+	if (!existingEpisode) {
+		throw new Error(`Episode with id ${id} is not found`);
+	}
+
+	const fullEpisode = { ...existingEpisode, ...episode };
+	return performDBOperation("episodes", "readwrite", "put", fullEpisode);
 }
