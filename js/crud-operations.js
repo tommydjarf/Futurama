@@ -151,8 +151,3 @@ async function updateEpisode(id, episode) {
 
     return performDBOperation("episodes", "readwrite", "put", fullEpisode);
 }
-
-//async function getSeasonId(){
-//let episode = await performDBOperation("episodes", "readonly", "get", id);
-//return episode.season;
-//}

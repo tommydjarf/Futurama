@@ -144,6 +144,7 @@ async function printEpisodes() {
 <h3>${episode.title}</h3>
     <p>Season: ${episode.season} -- Episode: ${episodeNumber}</p>
 `;
+
         episodeElement.addEventListener("click", () => printEpisode(episode.id));
         container.appendChild(episodeElement);
     }
@@ -173,6 +174,16 @@ async function printEpisode(id) {
 
     editButton.addEventListener("click", () => editEpisodeForm(id));
     deleteButton.addEventListener("click", () => deleteEpisode(id));
+
+    const closeModalButtons = document.querySelectorAll(".close-modal");
+    closeModalButtons.forEach((button) => {
+        button.removeEventListener("click", closeModal);
+    });
+
+    const closeButtons = document.querySelectorAll(".close-modal");
+    closeButtons.forEach((button) => {
+        button.addEventListener("click", closeTheModal);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -181,8 +192,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".add-character-button").addEventListener("click", function () {
         document.getElementById("modal").style.display = "block";
 
-        let = editDeleteButtons = document.querySelectorAll(".edit-delete");
-        editDeleteButtons.forEach((button) => (button.style.display = "none"));
+        // let = editDeleteButtons = document.querySelectorAll(".edit-delete");
+        // editDeleteButtons.forEach((button) => (button.style.display = "none"));
 
         addCharacterForm();
     });
@@ -190,13 +201,13 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".add-episode-button").addEventListener("click", function () {
         document.getElementById("modal").style.display = "block";
 
-        let = editDeleteButtons = document.querySelectorAll(".edit-delete");
-        editDeleteButtons.forEach((button) => (button.style.display = "none"));
+        // let = editDeleteButtons = document.querySelectorAll(".edit-delete");
+        // editDeleteButtons.forEach((button) => (button.style.display = "none"));
 
         addEpisodeForm();
     });
 
-    document.querySelector(".ed");
+    //document.querySelector(".ed");
 });
 
 async function deleteEpisode(id) {
@@ -388,7 +399,6 @@ async function addEpisodeForm() {
     <label for="episode">Episode:</label>
     <input type="text" id="episode" name="episode" placeholder="Episode">
   </div>
-
   <input class="submitAddCharacter" type="submit" value="Submit">
 </form>
 `;
@@ -408,7 +418,7 @@ async function editEpisodeForm(id) {
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        title = document.getElementById("title").value;
+        title = document.getElementById("title2").value;
         season = document.getElementById("season").value;
         episodeNumber = document.getElementById("episode").value;
 
