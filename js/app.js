@@ -332,13 +332,13 @@ async function addEpisodeForm() {
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const title = document.getElementById("title").value;
+    const title = document.getElementById("title2").value;
     const season = document.getElementById("season").value;
     const episode = document.getElementById("episode").value;
     //let episodeNumber = episode.number.split(" - ")[0];
 
     const newEpisode = {
-      number: getNextEpisodeId(),
+      number: episode,
       title: title,
       writers: "",
       originalAirDate: "",
@@ -364,8 +364,8 @@ async function addEpisodeForm() {
 form.innerHTML = `
 <form class="add-episode-form">
   <div class="lable-input-form">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" placeholder="Title" required>
+    <label for="title2">Title:</label>
+    <input type="text" id="title2" name="title" placeholder="Title" required>
   </div>
   <div class="lable-input-form">
     <label for="season">Season:</label>
