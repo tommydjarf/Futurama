@@ -51,7 +51,6 @@ async function getNextCharacterId() {
 	const characters = await performDBOperation("characters", "readonly", "getAll");
 
 	let nextId = characters.length + 1;
-
 	return nextId;
 }
 
@@ -72,6 +71,7 @@ async function addCharacter(character) {
 
 	const fullCharacter = { ...defaultCharacter, ...character };
 
+  closeTheModal();
 	return performDBOperation("characters", "readwrite", "post", fullCharacter);
 }
 
@@ -96,6 +96,44 @@ async function deleteCharacter(id) {
 		await performDBOperation("characters", "readwrite", "delete", id);
 		alert("Character deleted");	
 	}
-	await closeTheModal();
+	closeTheModal();
 	await printCharacters();
 }
+
+
+///////////////////////////// EPISODES /////////////////////////////
+async function getNextEpisodeId() {
+  const episodes = await performDBOperation("episodes", "readonly", "getAll");
+
+  let nextId = episodes.length + 1;
+
+  return nextId;
+}
+
+async function addEpisode(episode) {
+const defaultEpisode = {
+  id: await getNextEpisodeId(),
+  title: "",
+  season: "",
+  number: "",
+  originalAirDate: "",
+  writers: "",
+  desc: "",
+};
+
+  const fullEpisode = { ...defaultEpisode, ...episode };
+
+  closeTheModal();
+  return performDBOperation("episodes", "readwrite", "post", fullEpisode);
+}
+
+
+
+
+
+
+//async function getSeasonId(){
+//let episode = await performDBOperation("episodes", "readonly", "get", id);
+//return episode.season;
+//}
+

@@ -19,18 +19,25 @@ openRequest.onupgradeneeded = function (e) {
 // Checks if the IndexedDB is empty, if its empty it gets all the data from the API
 openRequest.onsuccess = async function (e) {
 	db = e.target.result;
-
-	const characters = await performDBOperation("characters", "readonly", "getAll");
-	const episodes = await performDBOperation("episodes", "readonly", "getAll");
-
-	if (characters.length === 0) {
-		await API.getCharacters();
-	}
-
-	if (episodes.length === 0) {
-		await API.getEpisodes();
-	}
 };
+
+// Load database
+async function loadDatabase() {
+	return new Promise(async (resolve, reject) => {
+		const characters = await performDBOperation("characters", "readonly", "getAll");
+		const episodes = await performDBOperation("episodes", "readonly", "getAll");
+
+		if (characters.length === 0) {
+			await API.getCharacters();
+		}
+
+		if (episodes.length === 0) {
+			await API.getEpisodes();
+		}
+
+		resolve();
+	});
+}
 
 // API Calls
 const API = {
@@ -87,5 +94,3 @@ function addSeasonToEpisodes(episodes) {
 	}
 	return episodes;
 }
-
-// TODO: Fix bug when page loads so that database is downloaded first

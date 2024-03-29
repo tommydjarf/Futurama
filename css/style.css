@@ -237,9 +237,11 @@ main {
 }
 
 .lable-input-form input {
-	margin-left: auto;
-	margin-bottom: 1em;
+margin-left: auto;
+  margin-bottom: 1em;
+  width: 50%; /* or any other value */
 }
+
 
 .submitAddCharacter {
 	background: linear-gradient(180deg, #8c1015, #e2161b);
@@ -260,3 +262,4 @@ main {
 	cursor: pointer;
 	transition: transform 0.3s ease-in-out;
 }
+
