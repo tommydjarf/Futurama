@@ -144,19 +144,17 @@ async function printEpisodes() {
 <h3>${episode.title}</h3>
     <p>Season: ${episode.season} -- Episode: ${episodeNumber}</p>
 `;
-
-        let deleteButton = document.querySelector(".delete");
-        deleteButton.addEventListener("click", () => deleteEpisode(id));
-
         episodeElement.addEventListener("click", () => printEpisode(episode.id));
         container.appendChild(episodeElement);
     }
+
+    let deleteButton = document.querySelector(".delete");
+    deleteButton.addEventListener("click", () => deleteEpisode(id));
 }
 
 async function printEpisode(id) {
     let episode = await performDBOperation("episodes", "readonly", "get", id);
     let episodeNumber = episode.number.split(" - ")[0];
-    console.log(episode);
 
     let characterCard = document.querySelector("#modal .modal-content-card");
     characterCard.innerHTML = `
@@ -169,6 +167,12 @@ async function printEpisode(id) {
 
     let modal = document.getElementById("modal");
     modal.style.display = "block";
+
+    let editButton = document.querySelector(".edit");
+    let deleteButton = document.querySelector(".delete");
+
+    editButton.addEventListener("click", () => editEpisodeForm(id));
+    deleteButton.addEventListener("click", () => deleteEpisode(id));
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -386,6 +390,64 @@ async function addEpisodeForm() {
   </div>
 
   <input class="submitAddCharacter" type="submit" value="Submit">
+</form>
+`;
+}
+
+//EDIT EPISODE FORM
+
+async function editEpisodeForm(id) {
+    let episode = await performDBOperation("episodes", "readonly", "get", id);
+    let title = episode.title;
+    let season = episode.season;
+    let episodeNumber = episode.number;
+
+    const form = document.createElement("form");
+    form.id = "editEpisodeForm";
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        title = document.getElementById("title").value;
+        season = document.getElementById("season").value;
+        episodeNumber = document.getElementById("episode").value;
+
+        const newEpisode = {
+            number: episodeNumber,
+            title: title,
+            season: season,
+            // Include other fields you want to update
+        };
+
+        try {
+            await updateEpisode(id, newEpisode);
+            console.log("Episode updated successfully!");
+            await printEpisode(id); // Uppdatera visningen av episoden efter uppdatering
+        } catch (error) {
+            console.error("Error updating episode:", error);
+        }
+    });
+
+    let modalFormCard = document.querySelector("#modal .modal-content-card");
+    modalFormCard.innerHTML = "";
+    modalFormCard.appendChild(form);
+
+    form.innerHTML = `
+<form class="edit-episode-form">
+  <div class="label-input-form">
+    <label for="title2">Title:</label>
+    <input type="text" id="title2" name="title" value="${title}" required>
+  </div>
+  <div class="label-input-form">
+    <label for="season">Season:</label>
+    <input type="text" id="season" name="season" value="${season}" required>
+  </div>
+  <div class="label-input-form">
+    <label for="episode">Episode:</label>
+    <input type="text" id="episode" name="episode" value="${episodeNumber}" required>
+  </div>
+  <!-- Include other input fields you want to edit -->
+  <input class="submitEditEpisode" type="submit" value="Submit">
 </form>
 `;
 }
