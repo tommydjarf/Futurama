@@ -72,7 +72,7 @@ async function addCharacter(character) {
 
 	const fullCharacter = { ...defaultCharacter, ...character };
 
-  closeTheModal();
+	closeTheModal();
 	return performDBOperation("characters", "readwrite", "post", fullCharacter);
 }
 
@@ -95,12 +95,33 @@ async function deleteCharacter(id) {
 	let confirmation = confirm("Are you sure you want to delete this caracter?");
 	if (confirmation) {
 		await performDBOperation("characters", "readwrite", "delete", id);
-		alert("Character deleted");	
+		alert("Character deleted");
 	}
 	closeTheModal();
 	await printCharacters();
 }
 
+async function getNextEpisodeId() {
+	const episodes = await performDBOperation("episodes", "readonly", "getAll");
 
+	let nextId = episodes.length + 1;
 
+	return nextId;
+}
 
+async function addEpisode(episode) {
+	const defaultEpisode = {
+		id: await getNextEpisodeId(),
+		title: "",
+		season: "",
+		number: "",
+		originalAirDate: "",
+		writers: "",
+		desc: "",
+	};
+
+	const fullEpisode = { ...defaultEpisode, ...episode };
+
+	closeTheModal();
+	return performDBOperation("episodes", "readwrite", "post", fullEpisode);
+}

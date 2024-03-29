@@ -178,7 +178,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		addCharacterForm();
 	});
-	document.querySelector(".ed");
+	document.querySelector(".add-episode-button").addEventListener("click", function () {
+		document.getElementById("modal").style.display = "block";
+
+		let = editDeleteButtons = document.querySelectorAll(".edit-delete");
+		editDeleteButtons.forEach((button) => (button.style.display = "none"));
+
+		addEpisodeForm();
+	});
 });
 
 window.onload = async function () {
@@ -308,8 +315,6 @@ async function editCharacterForm(id) {
 }
 
 //----------------EPISODES----------------//
-//
-
 async function addEpisodeForm() {
 	const form = document.createElement("form");
 	form.id = "addEpisodeForm";
@@ -317,33 +322,26 @@ async function addEpisodeForm() {
 	form.addEventListener("submit", async function (event) {
 		event.preventDefault();
 
-		const firstName = document.getElementById("title").value;
-		const lastName = document.getElementById("season").value;
-		const homePlanet = document.getElementById("episode").value;
+		const title = document.getElementById("titleEpisode").value;
+		const season = document.getElementById("season").value;
+		const episode = document.getElementById("episode").value;
+		//let episodeNumber = episode.number.split(" - ")[0];
 
 		const newEpisode = {
-			name: {
-				first: firstName,
-				middle: "",
-				last: lastName,
-			},
-			images: {
-				"head-shot": "",
-				main: "",
-			},
-			gender: "",
-			species: "",
-			occupation: "",
-			sayings: ["", ""],
-			id: await getNextCharacterId(),
-			age: "",
-			homePlanet: homePlanet,
+			number: episode,
+			title: title,
+			writers: "",
+			originalAirDate: "",
+			desc: "",
+			id: await getNextEpisodeId(),
+			season: season,
 		};
+
 		try {
-			await addCharacter(newCharacter);
-			console.log("Character added successfully IN ADDCHARFORM!");
+			await addEpisode(newEpisode);
+			console.log("Episode added successfully IN AddEpisodeForm!");
 			form.reset();
-			await printCharacters(); // Update the character list after adding
+			await printEpisodes(); // Update the character list after adding
 		} catch (error) {
 			console.error("Error adding character:", error);
 		}
@@ -354,20 +352,21 @@ async function addEpisodeForm() {
 	modalFormCard.appendChild(form);
 
 	form.innerHTML = `
-	<form class="add-character-form">
-		<div class="lable-input-form">
-			<label for="firstName">First Name:</label>
-			<input type="text" id="firstName" name="firstName" placeholder="First name" required>
-		</div>
-		<div class="lable-input-form">
-			<label for="lastName">Last Name:</label>
-			<input type="text" id="lastName" name="lastName" placeholder="Last name">
-		</div>
-		<div class="lable-input-form">
-			<label for="homePlanet">Home Planet:</label>
-			<input type="text" id="homePlanet" name="homePlanet" placeholder="Home planet">
-		</div>
-		<input class="submitAddCharacter" type="submit" value="Submit">
-	</form>
-    `;
+  <form class="add-episode-form">
+	<div class="lable-input-form">
+	  <label for="titleEpisode">Title:</label>
+	  <input type="text" id="titleEpisode" name="title" placeholder="Title" required>
+	</div>
+	<div class="lable-input-form">
+	  <label for="season">Season:</label>
+	  <input type="text" id="season" name="season" placeholder="Season">
+	</div>
+	<div class="lable-input-form">
+	  <label for="episode">Episode:</label>
+	  <input type="text" id="episode" name="episode" placeholder="Episode">
+	</div>
+  
+	<input class="submitAddCharacter" type="submit" value="Submit">
+  </form>
+  `;
 }
