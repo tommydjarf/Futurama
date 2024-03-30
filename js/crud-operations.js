@@ -50,7 +50,10 @@ function performDBOperation(storeName, mode, operation, value) {
 async function getNextCharacterId() {
     const characters = await performDBOperation("characters", "readonly", "getAll");
 
-    let nextId = characters.length + 1;
+    let maxId = Math.max(...characters.map((character) => character.id));
+
+    let nextId = maxId + 1;
+
     return nextId;
 }
 
@@ -107,7 +110,9 @@ async function deleteCharacter(id) {
 async function getNextEpisodeId() {
     const episodes = await performDBOperation("episodes", "readonly", "getAll");
 
-    let nextId = episodes.length + 1;
+    let maxId = Math.max(...episodes.map((episode) => episode.id));
+
+    let nextId = maxId + 1;
 
     return nextId;
 }

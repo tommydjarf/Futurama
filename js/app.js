@@ -38,6 +38,7 @@ let deleteFunction = null;
 let editButton = document.querySelector(".edit");
 let editFunction = null;
 
+//Show a specific character in modal
 async function printCharacter(id) {
     let character = await performDBOperation("characters", "readonly", "get", id);
 
@@ -189,21 +190,19 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".add-character-button").addEventListener("click", function () {
         document.getElementById("modal").style.display = "block";
 
-        // let = editDeleteButtons = document.querySelectorAll(".edit-delete");
-        // editDeleteButtons.forEach((button) => (button.style.display = "none"));
+        let = editDeleteButtons = document.querySelectorAll(".edit-delete");
+        editDeleteButtons.forEach((button) => (button.style.display = "none"));
 
         addCharacterForm();
     });
     document.querySelector(".add-episode-button").addEventListener("click", function () {
         document.getElementById("modal").style.display = "block";
 
-        // let = editDeleteButtons = document.querySelectorAll(".edit-delete");
-        // editDeleteButtons.forEach((button) => (button.style.display = "none"));
+        let = editDeleteButtons = document.querySelectorAll(".edit-delete");
+        editDeleteButtons.forEach((button) => (button.style.display = "none"));
 
         addEpisodeForm();
     });
-
-    //document.querySelector(".ed");
 });
 
 async function deleteEpisode(id) {
