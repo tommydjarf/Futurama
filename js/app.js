@@ -3,6 +3,27 @@ const mainContainer = document.querySelector(".main-container");
 
 // ----------- CHARACTERS ----------- //
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".characters-button").addEventListener("click", printCharacters);
+    document.querySelector(".episodes-button").addEventListener("click", printEpisodes);
+    document.querySelector(".add-character-button").addEventListener("click", function () {
+        document.getElementById("modal").style.display = "block";
+
+        let = editDeleteButtons = document.querySelectorAll(".edit-delete");
+        editDeleteButtons.forEach((button) => (button.style.display = "none"));
+
+        addCharacterForm();
+    });
+    document.querySelector(".add-episode-button").addEventListener("click", function () {
+        document.getElementById("modal").style.display = "block";
+
+        let = editDeleteButtons = document.querySelectorAll(".edit-delete");
+        editDeleteButtons.forEach((button) => (button.style.display = "none"));
+
+        addEpisodeForm();
+    });
+});
+
 async function printCharacters() {
     // Clear the main container
     mainContainer.innerHTML = "";
@@ -44,8 +65,6 @@ async function printCharacter(id) {
 
     // Remap the character
     character = remapCharacters(character);
-
-    console.log(character);
 
     let characterCard = document.querySelector("#modal .modal-content-card");
     let randomSayings = getRandomSayings(character.sayings);
@@ -115,112 +134,6 @@ function getRandomSayings(sayings) {
     }
     return randomSayings;
 }
-
-// ----------- EPISODES ----------- //
-
-async function printEpisodes() {
-    // Clear the main container
-    mainContainer.innerHTML = "";
-
-    // Create a new episodes container
-    const episodesContainer = document.createElement("div");
-    episodesContainer.className = "episodes-container";
-    episodesContainer.innerHTML = `
-	<h2>Episodes</h2>
-	`;
-    mainContainer.appendChild(episodesContainer);
-
-    let episodes = await performDBOperation("episodes", "readonly", "getAll");
-
-    console.log(episodes);
-
-    const container = document.getElementsByClassName("episodes-container")[0];
-
-    for (const episode of episodes) {
-        let episodeNumber = episode.number.split(" - ")[0];
-
-        const episodeElement = document.createElement("div");
-        episodeElement.className = "card";
-        episodeElement.innerHTML = `
-    <h3>${episode.title}</h3>
-    <p>Season: ${episode.season} -- Episode: ${episodeNumber}</p>
-`;
-
-        episodeElement.addEventListener("click", () => printEpisode(episode.id));
-        container.appendChild(episodeElement);
-    }
-    let deleteButton = document.querySelector(".delete");
-    deleteButton.addEventListener("click", () => deleteEpisode(id));
-}
-
-async function printEpisode(id) {
-    let episode = await performDBOperation("episodes", "readonly", "get", id);
-    let episodeNumber = episode.number.split(" - ")[0];
-    console.log(episode);
-
-    let characterCard = document.querySelector("#modal .modal-content-card");
-    characterCard.innerHTML = `
-	<h3>${episode.title}</h3>
-	<h4>Season: ${episode.season} Episode: ${episodeNumber} Date: ${episode.originalAirDate}</h4>
-	<p>Description:</p>
-	<p>${episode.desc}</p>
-	<p>Writers: ${episode.writers}</p>
-	`;
-
-    let modal = document.getElementById("modal");
-    modal.style.display = "block";
-    let editButton = document.querySelector(".edit");
-    let deleteButton = document.querySelector(".delete");
-
-    editButton.addEventListener("click", () => editEpisodeForm(id));
-    deleteButton.addEventListener("click", () => deleteEpisode(id));
-
-    const closeModalButtons = document.querySelectorAll(".close-modal");
-    closeModalButtons.forEach((button) => {
-        button.removeEventListener("click", closeTheModal);
-    });
-
-    editFunction = () => editEpisodeForm(id);
-    editButton.addEventListener("click", editFunction);
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector(".characters-button").addEventListener("click", printCharacters);
-    document.querySelector(".episodes-button").addEventListener("click", printEpisodes);
-    document.querySelector(".add-character-button").addEventListener("click", function () {
-        document.getElementById("modal").style.display = "block";
-
-        let = editDeleteButtons = document.querySelectorAll(".edit-delete");
-        editDeleteButtons.forEach((button) => (button.style.display = "none"));
-
-        addCharacterForm();
-    });
-    document.querySelector(".add-episode-button").addEventListener("click", function () {
-        document.getElementById("modal").style.display = "block";
-
-        let = editDeleteButtons = document.querySelectorAll(".edit-delete");
-        editDeleteButtons.forEach((button) => (button.style.display = "none"));
-
-        addEpisodeForm();
-    });
-});
-
-async function deleteEpisode(id) {
-    let confirmation = confirm("Are you sure you want to delete this episode?");
-    if (confirmation) {
-        await performDBOperation("episodes", "readwrite", "delete", id);
-        alert("Episode deleted");
-        await printEpisodes(); // Uppdatera listan med episoder efter borttagning
-    }
-    closeTheModal();
-}
-
-window.onload = async function () {
-    await loadDatabase();
-    await printCharacters();
-};
-
-// TODO: Close form for addCharacterForm
 
 async function addCharacterForm() {
     const form = document.createElement("form");
@@ -342,6 +255,74 @@ async function editCharacterForm(id) {
 }
 
 //----------------EPISODES----------------//
+
+async function printEpisodes() {
+    // Clear the main container
+    mainContainer.innerHTML = "";
+
+    // Create a new episodes container
+    const episodesContainer = document.createElement("div");
+    episodesContainer.className = "episodes-container";
+    episodesContainer.innerHTML = `
+	<h2>Episodes</h2>
+	`;
+    mainContainer.appendChild(episodesContainer);
+
+    let episodes = await performDBOperation("episodes", "readonly", "getAll");
+
+    console.log(episodes);
+
+    const container = document.getElementsByClassName("episodes-container")[0];
+
+    for (const episode of episodes) {
+        let episodeNumber = episode.number.split(" - ")[0];
+
+        const episodeElement = document.createElement("div");
+        episodeElement.className = "card";
+        episodeElement.innerHTML = `
+    <h3>${episode.title}</h3>
+    <p>Season: ${episode.season} -- Episode: ${episodeNumber}</p>
+`;
+
+        episodeElement.addEventListener("click", () => printEpisode(episode.id));
+
+        container.appendChild(episodeElement);
+    }
+}
+
+async function printEpisode(id) {
+    let episode = await performDBOperation("episodes", "readonly", "get", id);
+    let episodeNumber = episode.number.split(" - ")[0];
+
+    let characterCard = document.querySelector("#modal .modal-content-card");
+    characterCard.innerHTML = `
+	<h3>${episode.title}</h3>
+	<h4>Season: ${episode.season} Episode: ${episodeNumber} Date: ${episode.originalAirDate}</h4>
+	<p>Description:</p>
+	<p>${episode.desc}</p>
+	<p>Writers: ${episode.writers}</p>
+	`;
+
+    let editDeleteButtons = document.querySelectorAll(".edit-delete");
+    editDeleteButtons.forEach((button) => (button.style.display = "inline"));
+    let modal = document.getElementById("modal");
+    modal.style.display = "block";
+
+    if (deleteFunction) {
+        deleteButton.removeEventListener("click", deleteFunction);
+    }
+
+    deleteFunction = () => deleteEpisode(id);
+    deleteButton.addEventListener("click", deleteFunction);
+
+    if (editFunction) {
+        editButton.removeEventListener("click", editFunction);
+    }
+
+    editFunction = () => editEpisodeForm(id);
+    editButton.addEventListener("click", editFunction);
+}
+
 async function addEpisodeForm() {
     const form = document.createElement("form");
     form.id = "addEpisodeForm";
@@ -455,3 +436,8 @@ async function editEpisodeForm(id) {
 	</form>
 	`;
 }
+
+window.onload = async function () {
+    await loadDatabase();
+    await printCharacters();
+};

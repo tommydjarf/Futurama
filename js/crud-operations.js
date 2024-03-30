@@ -98,8 +98,9 @@ async function deleteCharacter(id) {
     if (confirmation) {
         await performDBOperation("characters", "readwrite", "delete", id);
         alert("Character deleted");
+
+        closeTheModal();
     }
-    closeTheModal();
     await printCharacters();
 }
 
@@ -140,8 +141,8 @@ async function deleteEpisode(id) {
     if (confirmation) {
         await performDBOperation("episodes", "readwrite", "delete", id);
         alert("Episode deleted");
+        closeTheModal();
     }
-    closeTheModal();
     await printEpisodes();
 }
 
