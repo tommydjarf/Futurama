@@ -100,7 +100,10 @@ async function deleteCharacter(id) {
     await printCharacters();
 }
 
-///////////////////////////// EPISODES /////////////////////////////
+/********************************
+ * CRUD Operations for Episodes *
+ ********************************/
+
 async function getNextEpisodeId() {
     const episodes = await performDBOperation("episodes", "readonly", "getAll");
 

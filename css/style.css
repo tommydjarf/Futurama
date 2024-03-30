@@ -200,10 +200,11 @@ main {
 }
 
 .modal-content-card > img {
-    max-height: 25em;
+    max-height: 30em;
     max-width: auto;
     width: auto;
-    padding: 2em;
+    padding: 2em 0;
+    margin: auto;
 }
 
 .close > img,
@@ -225,24 +226,23 @@ main {
     font-size: 1.3em;
 }
 
-.lable-input-form {
+.label-input-form {
     display: flex;
     justify-content: space-between;
 }
 
-.lable-input-form label {
+.label-input-form label {
     font-size: 1.3em;
     margin-right: 1em;
     margin-bottom: 1em;
 }
 
-.lable-input-form input {
+.label-input-form input {
     margin-left: auto;
     margin-bottom: 1em;
-    width: 50%; /* or any other value */
 }
 
-.submitAddCharacter {
+.submitButton {
     background: linear-gradient(180deg, #8c1015, #e2161b);
     border-color: #f1fe91;
     border-radius: 5px;
@@ -255,8 +255,8 @@ main {
     display: block;
 }
 
-.submitAddCharacter:hover,
-.submitAddCharacter:focus {
+.submitButton:hover,
+.submitButton:focus {
     transform: scale(1.05);
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
