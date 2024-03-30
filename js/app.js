@@ -4,26 +4,28 @@ const mainContainer = document.querySelector(".main-container");
 // ----------- CHARACTERS ----------- //
 
 document.addEventListener("DOMContentLoaded", function () {
+    // Event listeners for navigation buttons
     document.querySelector(".characters-button").addEventListener("click", printCharacters);
     document.querySelector(".episodes-button").addEventListener("click", printEpisodes);
     document.querySelector(".add-character-button").addEventListener("click", function () {
         document.getElementById("modal").style.display = "block";
 
+        // Hide edit and delete buttons in modal
         let = editDeleteButtons = document.querySelectorAll(".edit-delete");
         editDeleteButtons.forEach((button) => (button.style.display = "none"));
-
+        // Display add character form
         addCharacterForm();
     });
     document.querySelector(".add-episode-button").addEventListener("click", function () {
         document.getElementById("modal").style.display = "block";
-
+        // Hide edit and delete buttons in modal
         let = editDeleteButtons = document.querySelectorAll(".edit-delete");
         editDeleteButtons.forEach((button) => (button.style.display = "none"));
-
+        // Display add episode form
         addEpisodeForm();
     });
 });
-
+// Function to print characters
 async function printCharacters() {
     // Clear the main container
     mainContainer.innerHTML = "";
@@ -65,7 +67,7 @@ async function printCharacter(id) {
 
     // Remap the character
     character = remapCharacters(character);
-
+    // Populate modal with character details
     let characterCard = document.querySelector("#modal .modal-content-card");
     let randomSayings = getRandomSayings(character.sayings);
     characterCard.innerHTML = `
@@ -77,13 +79,13 @@ async function printCharacter(id) {
 		${randomSayings.map((saying) => `<li>${saying}</li>`).join("")}
 	</ul>
 	`;
-
+    // Show edit and delete buttons in modal
     let editDeleteButtons = document.querySelectorAll(".edit-delete");
     editDeleteButtons.forEach((button) => (button.style.display = "inline"));
 
     let characterModal = document.getElementById("modal");
     characterModal.style.display = "block";
-
+    // Event listeners for delete and edit buttons
     if (deleteFunction) {
         deleteButton.removeEventListener("click", deleteFunction);
     }
@@ -98,7 +100,7 @@ async function printCharacter(id) {
     editFunction = () => editCharacterForm(id);
     editButton.addEventListener("click", editFunction);
 }
-
+// Function to close the modal
 let closeButtonElement = document.querySelector("#modal .close");
 closeButtonElement.addEventListener("click", closeTheModal);
 
@@ -124,7 +126,7 @@ function remapCharacters(character) {
         homePlanet: character.homePlanet || "The universe!",
     };
 }
-
+// Function to get random sayings
 function getRandomSayings(sayings) {
     let randomSayings = [];
     for (let i = 0; i < 1; i++) {
@@ -134,18 +136,22 @@ function getRandomSayings(sayings) {
     }
     return randomSayings;
 }
-
+// Function to display add character form
 async function addCharacterForm() {
+    // Create form element
     const form = document.createElement("form");
     form.id = "addCharacterForm";
 
+    // Event listener for form submission
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
+        // Get form input values
         const firstName = document.getElementById("firstName").value;
         const lastName = document.getElementById("lastName").value;
         const homePlanet = document.getElementById("homePlanet").value;
 
+        // Create new character object
         const newCharacter = {
             name: {
                 first: firstName,
@@ -165,6 +171,7 @@ async function addCharacterForm() {
             homePlanet: homePlanet,
         };
         try {
+            // Add character to database
             await addCharacter(newCharacter);
             console.log("Character added successfully IN ADDCHARFORM!");
             form.reset();
@@ -174,6 +181,7 @@ async function addCharacterForm() {
         }
     });
 
+    // Populate modal with add character form
     let modalFormCard = document.querySelector("#modal .modal-content-card");
     modalFormCard.innerHTML = "";
     modalFormCard.appendChild(form);
@@ -197,13 +205,16 @@ async function addCharacterForm() {
 	`;
 }
 
+// Function to display edit character form
 async function editCharacterForm(id) {
+    // Fetch character from database
     let character = await performDBOperation("characters", "readonly", "get", id);
 
     let firstName = character.name.first;
     let lastName = character.name.last;
     let homePlanet = character.homePlanet;
 
+    // Create form element
     const form = document.createElement("form");
     form.id = "editCharacterForm";
 
@@ -290,6 +301,9 @@ async function printEpisodes() {
     }
 }
 
+////////////////////
+//PRINT  EPISODE FORM//
+////////////////////
 async function printEpisode(id) {
     let episode = await performDBOperation("episodes", "readonly", "get", id);
     let episodeNumber = episode.number.split(" - ")[0];
@@ -322,7 +336,9 @@ async function printEpisode(id) {
     editFunction = () => editEpisodeForm(id);
     editButton.addEventListener("click", editFunction);
 }
-
+////////////////////
+//DISPLAY EPISODE FORM//
+////////////////////
 async function addEpisodeForm() {
     const form = document.createElement("form");
     form.id = "addEpisodeForm";
@@ -345,6 +361,7 @@ async function addEpisodeForm() {
         };
 
         try {
+            // Add episode to database
             await addEpisode(newEpisode);
             console.log("Episode added successfully IN AddEpisodeForm!");
             form.reset();
@@ -354,6 +371,7 @@ async function addEpisodeForm() {
         }
     });
 
+    // Populate modal with add episode form
     let modalFormCard = document.querySelector("#modal .modal-content-card");
     modalFormCard.innerHTML = "";
     modalFormCard.appendChild(form);
@@ -376,9 +394,9 @@ async function addEpisodeForm() {
 	</form>
 	`;
 }
-
-//EDIT EPISODE FORM
-
+/////////////////////
+//EDIT EPISODE FORM//
+/////////////////////
 async function editEpisodeForm(id) {
     let episode = await performDBOperation("episodes", "readonly", "get", id);
     let title = episode.title;
@@ -394,17 +412,16 @@ async function editEpisodeForm(id) {
         title = document.getElementById("titleEpisode").value;
         season = document.getElementById("season").value;
         episodeNumber = document.getElementById("episode").value;
-        submitEditEpisode;
 
         const newEpisode = {
             number: episodeNumber,
             title: title,
             season: season,
-            // Include other fields you want to update
         };
 
         try {
-            await editEpisode(id, newEpisode);
+            // Update episode in database
+            await updateEpisode(id, newEpisode);
             console.log("Episode updated successfully!");
             await printEpisode(id);
             await printEpisodes();
@@ -437,6 +454,7 @@ async function editEpisodeForm(id) {
 	`;
 }
 
+// Function to load database and print characters on window load
 window.onload = async function () {
     await loadDatabase();
     await printCharacters();
